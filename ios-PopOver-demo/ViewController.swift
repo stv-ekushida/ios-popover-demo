@@ -8,13 +8,30 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func didTapShoPopover(_ sender: UIButton) {
+        
+        let vc = UserMenuListViewController.instance()
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: 300, height: 88)
+        vc.popoverPresentationController?.sourceView = view
+        vc.popoverPresentationController?.sourceRect = sender.frame
+        vc.popoverPresentationController?.permittedArrowDirections = .up
+        vc.popoverPresentationController?.delegate = self
+        present(vc, animated: true)
+    }
+    
 }
 
+//MARK: - For iPhone
+extension ViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController,
+                                   traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
